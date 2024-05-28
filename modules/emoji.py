@@ -96,7 +96,6 @@ async def handle_checkmark_reaction(bot, payload, original_poster_id):
 
     try:
         interaction = await bot.wait_for("interaction", timeout=86400, check=check)
-        thread = disnake.utils.get(guild.threads, id=thread_id)
         if interaction.component.label == "Yes":
             await interaction.response.send_message(content="Excellent! We're pleased to know you're satisfied. This thread will now be closed.")
             if thread:
@@ -194,7 +193,7 @@ async def resume_interaction(client, message_id, user_id, thread_id, satisfactio
     satisfaction_message = await channel.fetch_message(satisfaction_message_id)
 
     def check(interaction: Interaction):
-        return interaction.user.id == original_poster_id
+        return interaction.user.id == user_id
 
     async def send_reminder():
         await asyncio.sleep(43200)
